@@ -1,9 +1,10 @@
 <script setup>
-  import HeroSection from './components/HeroSection.vue';
+  import Navbar from './components/NavbarSection.vue';
+  import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <HeroSection />
+  <RouterView />
 </template>
 
 <style scoped>
