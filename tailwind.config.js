@@ -19,7 +19,11 @@ export default {
       },
       colors: {
         'custom-green': '#1dcd8d',
+        'custom-light-green': '#E8FFF7',
         'custom-dark-green': '#006c77',
+      },
+      backgroundImage: {
+        'pattern': '/src/assets/images/userBg.jpg',
       }
     },
   },

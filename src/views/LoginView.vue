@@ -1,13 +1,10 @@
 <script setup>
-  import Navbar from './NavbarSection.vue';
   import login from '../assets/images/login.png';
 </script>
 
 <template>
   <main class="bg-gradient-to-b from-custom-green to-custom-dark-green min-h-screen">
-    <Navbar />
-    <div class="loginContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center mt-8">
-      
+    <div class="loginContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8">
       <div class="formImage w-450 h-500">
         <img class="w-full h-full object-cover" :src="login" alt="Login Image">          
       </div>
