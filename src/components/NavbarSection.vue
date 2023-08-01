@@ -1,10 +1,20 @@
 <script setup>
   import { RouterLink } from 'vue-router'
   import { useUsers } from '../store/users';
-import { storeToRefs } from 'pinia';
+  import { storeToRefs } from 'pinia';
+  import { useRouter } from 'vue-router'
+
+  // Define router
+  const router = useRouter();
 
   const userStore = useUsers();
-  const { login } = storeToRefs(userStore);
+  const { isLoggedIn, currentUser } = storeToRefs(userStore);
+  const { logout } = userStore;
+
+  const userLogOut = async() => {
+    await logout();
+    router.push({name: "login"});
+  }
 
   defineProps({
     theme: Object,
@@ -20,15 +30,18 @@ import { storeToRefs } from 'pinia';
       </RouterLink>
     </div>
 
-    <div class="navMenu" v-if="!login">
+    <div class="navMenu" v-if="!isLoggedIn">
       <ul class="flex gap-x-8 gap-y-4 items-center justify-center">
         <li class="border px-6 py-2 rounded-lg"><RouterLink to='/login'>Login</RouterLink></li>
         <li class="border px-6 py-2 rounded-lg"><RouterLink to='/signup'>Sign up</RouterLink></li>
       </ul>
     </div>
 
-    <div v-else>
-      <p>User Logged in</p>
+    <div v-else class="flex justify-center items-center gap-4 w-48">
+      <div class="userImage w-12 h-12 rounded-full overflow-hidden">
+        <img class="w-full h-full object-cover" :src="currentUser.image" alt="User image">
+      </div>
+      <button @click="userLogOut" class="border px-6 py-2 rounded-lg capitalize">Log out</button>
     </div>
   </nav>
 </template>

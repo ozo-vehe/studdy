@@ -1,14 +1,64 @@
 <script setup>
-  import signup from '../assets/images/login.png';
+  import signupImage from '../assets/images/login.png';
+  import { ref } from 'vue';
+  import { useUsers } from '../store/users';
+  import { useRouter } from 'vue-router';
+
+  // Import components
+  import ButtonSection from '../components/ButtonSection.vue';
+  import ErrorAlert from '../components/alerts/ErrorAlert.vue'
+
+  
+  // Define router
+  const router = useRouter();
+
+  // Signup Data
+  const email = ref(null);
+  const password = ref(null);
+  const cPassword = ref(null);
+  const fullname = ref(null);
+  const isSame = ref(true);
+  const errorMessage = ref(null);
+  
+  // Store variables
+  const userStore = useUsers();
+  const { signup } = userStore
+
+  // Signup function
+  const userSignup = async(e) => {
+    e.preventDefault();
+    try{
+      if(password.value == cPassword.value) {
+        isSame.value = true;
+        const userDetails = {
+          email: email.value,
+          password: password.value,
+          fullname: fullname.value
+        }
+        const userId = await signup(userDetails);
+        console.log(userId);
+
+        // Redirect to profile page
+        router.push({name: "profile", params: { id: userId }})
+      }
+      else {
+        isSame.value = false;
+        errorMessage.value = "Password not the same"
+        return new Error("Password not the same");
+      }
+    } catch(err) {
+      errorMessage.value = err;
+    }
+  }
 
 </script>
 
 <template>
-  <main class="bg-gradient-to-b from-custom-green to-custom-dark-green min-h-screen">
+  <main class="bg-gradient-to-b from-custom-green to-custom-dark-green custom-height">
     <div class="signupContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8 pb-4">
       
       <div class="formImage w-450 h-500">
-        <img class="w-full h-full object-cover" :src="signup" alt="Login Image">          
+        <img class="w-full h-full object-cover" :src="signupImage" alt="Login Image">          
       </div>
 
 
@@ -17,19 +67,19 @@
         <form class="my-8 w-full">
           
           <div class="text-slate-900 fullname my-4 w-full h-12 rounded overflow-hidden">
-            <input type="text" name="fullname" class="w-full h-full px-4 border-none outline-none" placeholder="Fullname">
+            <input v-model="fullname" type="text" name="fullname" class="w-full h-full px-4 border-none outline-none" placeholder="Fullname">
           </div>
 
           <div class="text-slate-900 email my-4 w-full h-12 rounded overflow-hidden">
-            <input type="email" name="email" class="w-full h-full px-4 border-none outline-none" placeholder="Email">
+            <input v-model="email" type="email" name="email" class="w-full h-full px-4 border-none outline-none" placeholder="Email">
           </div>
 
           <div class="text-slate-900 password my-4 w-full h-12 rounded overflow-hidden">
-            <input type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Password">
+            <input v-model="password" type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Password">
           </div>
 
           <div class="text-slate-900 password my-4 w-full h-12 rounded overflow-hidden">
-            <input type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Confirm Password">
+            <input v-model="cPassword" type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Confirm Password">
           </div>
           
           <div class="flex flex-wrap items-center justify-between">
@@ -42,13 +92,15 @@
           </div>
 
           <div class="w-full button my-4">
-            <button class="w-full bg-slate-900 py-3 rounded-lg uppercase text-slate-50 cursor-pointer">Sign up</button>
+            <ButtonSection @click="userSignup" buttonText="Sign up" color="w-full bg-slate-900 py-3 rounded-lg uppercase text-slate-50" />
           </div>
 
           <p class="text-center">Already have an account? <RouterLink class="underline underline-offset-2" to="/login">Login</RouterLink></p>
         </form>
       </div>
     </div>
+
+    <ErrorAlert :message="errorMessage" v-if="!isSame" />
   </main>
 </template>
 

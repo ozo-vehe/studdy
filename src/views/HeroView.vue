@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="bg-gradient-to-b from-custom-green to-custom-dark-green h-screen">
+  <main class="custom-height bg-gradient-to-b from-custom-green to-custom-dark-green">
     <div class="heroSection flex items-center justify-center gap-x-15 gap-y-4">
       <div class="header w-450 text-slate-50">
         <h1 class="text-7xl font-bold">Experience excellence with us</h1>

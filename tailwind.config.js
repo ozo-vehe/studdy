@@ -24,7 +24,7 @@ export default {
       },
       backgroundImage: {
         'pattern': '/src/assets/images/userBg.jpg',
-      }
+      },
     },
   },
   plugins: [],

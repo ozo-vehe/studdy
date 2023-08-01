@@ -7,3 +7,7 @@
 * {
   font-family: 'Nunito'
 }
+
+.custom-height {
+  min-height: calc(100vh - 74px);
+}

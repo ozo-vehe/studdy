@@ -2,7 +2,7 @@
   import { RouterView } from 'vue-router';
   import { useUsers } from './store/users';
   import { useGroups } from './store/groups';
-  import { onBeforeMount } from 'vue'
+  import { onBeforeMount, onMounted } from 'vue'
   import Navbar from './components/NavbarSection.vue';
 
   const usersStore = useUsers();
