@@ -3,6 +3,7 @@
   import { useUsers } from './store/users';
   import { useGroups } from './store/groups';
   import { onBeforeMount } from 'vue'
+  import Footer from './components/FooterSection.vue';
 
   const usersStore = useUsers();
   const groupStore = useGroups();
@@ -18,6 +19,7 @@
 
 <template>
   <RouterView />
+  <Footer />
 </template>
 
 <style scoped>
