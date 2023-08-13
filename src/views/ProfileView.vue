@@ -1,43 +1,62 @@
 <script setup>
-  import user from '../assets/images/user.jpg';
+  import defaultImage from '../assets/images/default.png';
   import { useUsers } from '../store/users';
   import { useGroups } from '../store/groups';
   import { storeToRefs } from 'pinia';
+  import { useRoute } from 'vue-router';
+  import { ref, onBeforeMount } from 'vue';
 
   import GroupSection from '../components/GroupSection.vue';
   import ButtonSection from '../components/ButtonSection.vue';
+  import EditProfile from '../components/EditProfileSection.vue';
 
   const userStore = useUsers();
   const groupStore = useGroups();
+  const route = useRoute();
 
-  const { currentUser } = storeToRefs(userStore);
+  const { currentUser, userId } = storeToRefs(userStore);
   const { getUserGroup } = storeToRefs(groupStore);
 
+  // Data
+  const edit = ref(true);
+  const showEdit = () => {
+    edit.value = !edit.value;
+    console.log(edit.value)
+  }
+
+  onBeforeMount(() => {
+    if(userId) {
+      userId.value = route.params.id;
+    }
+  })
 </script>
 
 <template>
   <main class="min-h-screen pt-20">
-    <div class="profileContainer flex gap-x-24 flex-wrap items-center justify-center py-12">
-      <div class="profileDetails w-450 box-border">
-        <h2 class="text-4xl font-bold mb-4">{{ currentUser.fullname }}</h2>
-        <p class="my-2" v-if="currentUser.bio">{{ currentUser.bio }}</p>
-        <p class="my-2">Email: {{ currentUser.email }}</p>
-        <p class="capitalize my-2">Education Level: {{ currentUser.education_level }}</p>
-        <p class="capitalize my-2">Study Method: {{ currentUser.study_method }}</p>
-        <div class="flex gap-2 capitalize">
-          <h3>Subjects:</h3>
-          <span v-for="subject in currentUser.subjects"> {{ subject }}, </span>
-        </div>
+    <div class="profileContainer flex gap-x-24 flex-wrap items-start justify-center py-12">
+      <EditProfile v-if="edit" />
+      <div v-else>
+        <div class="profileDetails w-450 box-border">
+          <h2 class="text-4xl font-bold mb-4">{{ currentUser.fullname }}</h2>
+          <p class="my-2" v-if="currentUser.bio">{{ currentUser.bio }}</p>
+          <p class="my-2">Email: {{ currentUser.email }}</p>
+          <p class="capitalize my-2">Education Level: {{ currentUser.education_level }}</p>
+          <p class="capitalize my-2">Study Method: {{ currentUser.study_method }}</p>
+          <div class="flex gap-2 capitalize">
+            <h3>Subjects:</h3>
+            <span v-for="subject in currentUser.subjects"> {{ subject }}, </span>
+          </div>
 
-        <div class="profileBtns mt-8 w-fit flex gap-x-8 gap-y-4">
-          <ButtonSection color="bg-custom-green text-slate-50" buttonText="Edit profile" />
-          <ButtonSection color="bg-custom-green text-slate-50" buttonText="Create group" />
+          <div class="profileBtns mt-8 w-fit flex gap-x-8 gap-y-4">
+            <ButtonSection color="bg-custom-green text-slate-50" buttonText="Edit profile" @click="showEdit" />
+            <ButtonSection color="bg-custom-green text-slate-50" buttonText="Create group" />
+          </div>
         </div>
       </div>
 
       <div class="shadow-lg overflow-hidden profileImage w-300 h-350 border rounded-xl overflow-hden">
         <img v-if="currentUser.image" class="w-full h-full object-cover" :src="currentUser.image" alt="UserImage">
-        <img v-else class="w-full h-full object-contain" src="https://img.icons8.com/pulsar-line/96/user.png" alt="user"/>
+        <img v-else class="w-full h-full object-contain" :src="defaultImage" alt="user"/>
       </div>
     </div>
 

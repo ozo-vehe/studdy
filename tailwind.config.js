@@ -18,9 +18,9 @@ export default {
         '600': '600px',
       },
       colors: {
-        'custom-green': '#1dcd8d',
+        'custom-green': '#b5f7c9',
         'custom-light-green': '#E8FFF7',
-        'custom-dark-green': '#006c77',
+        'custom-dark-green': '#4fac6b',
       },
       backgroundImage: {
         'pattern': '/src/assets/images/userBg.jpg',
