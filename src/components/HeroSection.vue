@@ -1,4 +1,4 @@
-<script setup>
+flw<script setup>
   import hero from '../assets/images/hero.png'
   import Navbar from './NavbarSection.vue';
 </script>
@@ -6,7 +6,7 @@
 <template>
   <main class="custom-height homepage">
     <Navbar />
-    <div class="heroSection flex items-center justify-center gap-x-15 gap-y-4 custom-height">
+    <div class="heroSection flex flex-wrap items-center justify-center gap-x-15 gap-y-4 custom-height">
       <div class="header w-450 text-slate-800 h-400">
         <h1 class="text-5xl font-bold">What is The Best Method For You</h1>
         <p class="my-4">
