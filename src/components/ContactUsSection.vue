@@ -1,7 +1,6 @@
 <script setup>
   import Button from './ButtonSection.vue';
   import { ref } from 'vue';
-  import ErrorAlert from './alerts/ErrorAlert.vue';
 
   // Loading State
   const loading = ref(false);
@@ -34,7 +33,7 @@
 </script>
 
 <template>
-  <main class="text-custom-dark-green p-12 min-h-screen flex flex-col items-center justify-start">
+  <main class="text-custom-dark-green p-12 flex flex-col items-center justify-start">
     <h2 class="text-3xl font-bold text-center mb-4">Contact Us</h2>
 
     <form @submit.prevent="submitForm" class="text-slate-800 w-350 border mt-4 px-4 bg-slate-50 rounded-lg">

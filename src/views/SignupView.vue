@@ -1,12 +1,13 @@
 <script setup>
-  import signupImage from '../assets/images/login.png';
+  import signupImage from '../assets/images/signup.png';
   import { ref } from 'vue';
   import { useUsers } from '../store/users';
   import { useRouter } from 'vue-router';
 
   // Import components
   import ButtonSection from '../components/ButtonSection.vue';
-  import ErrorAlert from '../components/alerts/ErrorAlert.vue'
+  import ErrorAlert from '../components/alerts/ErrorAlert.vue';
+  import Navbar from '../components/NavbarSection.vue';
 
   
   // Define router
@@ -54,31 +55,32 @@
 </script>
 
 <template>
-  <main class="bg-gradient-to-b from-custom-green to-custom-dark-green custom-height">
+  <main class="min-h-screen">
+    <Navbar />
     <div class="signupContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8 pb-4">
       
       <div class="formImage w-450 h-500">
-        <img class="w-full h-full object-cover" :src="signupImage" alt="Login Image">          
+        <img class="w-full h-full object-contain" :src="signupImage" alt="Login Image">          
       </div>
 
 
-      <div class="signup text-slate-50 bg-slate-50/30 backdrop-blur-sm rounded-md w-400 px-5 pt-8">
-        <h2 class="text-center text-4xl font-bold">Create an Account</h2>
+      <div class="signup text-slate-800 bg-slate-50 backdrop-blur-sm rounded-md w-400 px-5 pt-8">
+        <h2 class="text-center text-4xl text-custom-dark-green font-bold">Create an Account</h2>
         <form class="my-8 w-full">
           
-          <div class="text-slate-900 fullname my-4 w-full h-12 rounded overflow-hidden">
+          <div class="text-slate-800 fullname my-4 w-full h-12 rounded overflow-hidden">
             <input v-model="fullname" type="text" name="fullname" class="w-full h-full px-4 border-none outline-none" placeholder="Fullname">
           </div>
 
-          <div class="text-slate-900 email my-4 w-full h-12 rounded overflow-hidden">
+          <div class="text-slate-800 email my-4 w-full h-12 rounded overflow-hidden">
             <input v-model="email" type="email" name="email" class="w-full h-full px-4 border-none outline-none" placeholder="Email">
           </div>
 
-          <div class="text-slate-900 password my-4 w-full h-12 rounded overflow-hidden">
+          <div class="text-slate-800 password my-4 w-full h-12 rounded overflow-hidden">
             <input v-model="password" type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Password">
           </div>
 
-          <div class="text-slate-900 password my-4 w-full h-12 rounded overflow-hidden">
+          <div class="text-slate-800 password my-4 w-full h-12 rounded overflow-hidden">
             <input v-model="cPassword" type="password" name="password" class="w-full h-full px-4 border-none outline-none" placeholder="Confirm Password">
           </div>
           
@@ -88,14 +90,14 @@
               <span>Remember Password</span>
             </div>
 
-            <p>Forgot Password</p>
+            <p class="text-custom-dark-green cursor-pointer">Forgot Password</p>
           </div>
 
           <div class="w-full button my-4">
-            <ButtonSection @click="userSignup" buttonText="Sign up" color="w-full bg-slate-900 py-3 rounded-lg uppercase text-slate-50" />
+            <ButtonSection @click="userSignup" buttonText="Sign up" color="w-full bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
           </div>
 
-          <p class="text-center">Already have an account? <RouterLink class="underline underline-offset-2" to="/login">Login</RouterLink></p>
+          <p class="text-center">Already have an account? <RouterLink class="underline underline-offset-2 text-custom-dark-green" to="/login">Login</RouterLink></p>
         </form>
       </div>
     </div>

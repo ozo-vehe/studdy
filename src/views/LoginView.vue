@@ -5,6 +5,9 @@
   import { useRouter } from 'vue-router';
   import { storeToRefs } from 'pinia';
 
+  // Import components
+  import Navbar from '../components/NavbarSection.vue';
+
   // Read functions from the store
   const userStore = useUsers();
   const { userId } = storeToRefs(userStore);
@@ -38,15 +41,16 @@
 </script>
 
 <template>
-  <main class="bg-gradient-to-b from-custom-green to-custom-dark-green custom-height">
+  <main class="min-h-screen">
+    <Navbar />
     <div class="loginContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8">
       <div class="formImage w-450 h-500">
-        <img class="w-full h-full object-cover" :src="loginImage" alt="Login Image">          
+        <img class="w-full h-full object-contain" :src="loginImage" alt="Login Image">          
       </div>
 
 
-      <div class="login text-slate-50 bg-slate-50/30 backdrop-blur-sm rounded-md w-400 px-5 py-8">
-        <h2 class="text-center text-4xl font-bold">Welcome Back</h2>
+      <div class="login bg-slate-50 shadow-sm rounded-md w-400 px-5 py-8">
+        <h2 class="text-center text-custom-dark-green text-4xl font-bold">Welcome Back</h2>
         <form class="my-8 w-full">
           <div class="text-slate-900 email my-4 w-full h-12 rounded overflow-hidden">
             <input v-model="email" type="email" name="email" class="w-full h-full pl-4 border-none outline-none" placeholder="Email">
@@ -62,19 +66,19 @@
               <span>Remember Password</span>
             </div>
 
-            <p>Forgot Password</p>
+            <p class="text-custom-dark-green cursor-pointer">Forgot Password</p>
           </div>
 
-          <div class="w-full button my-8">
+          <div class="w-full text-center button my-8">
             <button
               @click="userLogin"
-              class="w-full bg-slate-900 py-3 rounded-lg uppercase text-slate-50 cursor-pointer"
+              class="w-full bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50 cursor-pointer"
             >
-              <RouterLink :to="{}">Login</RouterLink>
+              login
             </button>
           </div>
 
-          <p class="text-center">Don't have an account? <RouterLink class="underline underline-offset-2" to="/signup">Sign Up</RouterLink></p>
+          <p class="text-center">Don't have an account? <RouterLink class="text-custom-dark-green underline underline-offset-2" to="/signup">Sign Up</RouterLink></p>
         </form>
       </div>
     </div>
