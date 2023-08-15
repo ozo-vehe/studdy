@@ -1,24 +1,33 @@
 <script setup>
+  // Import component
+  import Button from './ButtonSection.vue';
+
   defineProps({
     group: Object,
   })
 </script>
 
 <template>
-  <div class="group bg-white px-1 my-8 flex flex-wrap gap-4 items-center justify-center w-500 h-250 overflow-hidden">
-    <div class="groupIcon w-200 h-200 rounded-full overflow-hidden">
-      <img class="mix-blend-multiply w-full h-full object-cover" :src="group.icon" alt="Group Icon">
+  <main class="group relative border border-slate-100 bg-slate-50 rounded-lg my-4 w-350 h-450 overflow-hidden">
+    <div class="groupIcon h-250">
+      <img class="w-full h-full object-cover" :src="group.icon" alt="Group Icon">
     </div>
 
-    <div class="groupDetails w-250">
-      <h3 class="text-2xl capitalize font-bold mb-2">{{ group.name }}</h3>
-      <p class="my-3"><span class="font-bold">Description:</span> {{ group.description }}</p>
-      <p class="my-3"><span class="font-bold">Group Size:</span> {{ group.size }}</p>
-      <p class="capitalize"><span class="font-bold">Study Method:</span> {{ group.study_method }}</p>
+    <p class="absolute top-4 text-sm font-bold right-0 bg-custom-dark-green text-slate-50 px-5 py-2 rounded-l-md">Size: {{ group.size }}</p>
+
+    <div class="groupDetails px-4 text-center">
+      <h3 class="text-left text-2xl text-custom-dark-green capitalize font-bold mt-4 mb-2">{{ group.name }}</h3>
+      <p class="text-left"><span class="font-bold">Description:</span> {{ group.description }}</p>
+      <p class="text-left capitalize">
+        <span class="font-bold">Study Methods: </span> 
+        <span v-for="study_method in group.study_methods">{{ study_method }}, </span>
+      </p>
+      <p class="text-left"><span class="font-bold">Members: </span> {{ group.members.length }}</p>
+
+      <Button buttonText="join" color="border border-custom-dark-green mt-4 hover:bg-custom-dark-green bg-slate-50 hover:text-slate-50 text-custom-dark-green transition-all duration-200 hover:shadow-md capitalize py-1 min-w-fit"/>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-
 </style>
