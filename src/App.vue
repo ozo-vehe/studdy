@@ -3,6 +3,7 @@
   import { useUsers } from './store/users';
   import { useGroups } from './store/groups';
   import { onBeforeMount } from 'vue'
+  // Import components
   import Footer from './components/FooterSection.vue';
 
   const usersStore = useUsers();

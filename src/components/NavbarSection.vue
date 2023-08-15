@@ -45,4 +45,10 @@
 </template>
 
 <style scoped>
+  @media screen and (max-width: 768px) {
+    nav {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+  }
 </style>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="px-12 pt-20 pb-12 min-h-screen flex flex-wrap gap-x-16 gap-y-4 items-start justify-center">
+  <main class="pt-20 pb-12 min-h-screen flex flex-wrap gap-x-16 gap-y-4 items-start justify-center">
     <section class="serviceImage w-400 h-450">
       <img class="w-full h-full object-contain" src="../assets/images/service.png" alt="service" />
     </section>
@@ -16,7 +16,7 @@
         to foster collaboration, support, and growth.
       </p>
 
-      <section class="services mt-8 flex flex-wrap gap-y-4 items-start justify-between">
+      <section class="services mt-8 flex flex-wrap gap-y-4 gap-x-2 items-start justify-between">
         
         <div class="service border border-slate-100 rounded-md w-60 shadow-sm py-4 px-4">
           <div class="bg-custom-dark-green rounded-full w-10 h-10 p-1.5 mb-2">
@@ -70,5 +70,13 @@
 </template>
 
 <style scoped>
-
+  @media screen and (max-width: 768px) {
+    main {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+    .services {
+      justify-content: center;
+    }
+  }
 </style>
