@@ -41,9 +41,9 @@
 </script>
 
 <template>
-  <main class="min-h-screen">
+  <main class="min-h-screen pb-8">
     <Navbar />
-    <div class="loginContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8">
+    <div class="loginContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center py-8">
       <div class="formImage w-450 h-500">
         <img class="w-full h-full object-contain" :src="loginImage" alt="Login Image">          
       </div>

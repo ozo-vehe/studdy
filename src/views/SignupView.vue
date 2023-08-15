@@ -55,9 +55,9 @@
 </script>
 
 <template>
-  <main class="min-h-screen">
+  <main class="min-h-screen pb-8">
     <Navbar />
-    <div class="signupContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center pt-8 pb-4">
+    <div class="signupContainer flex flex-wrap gap-x-12 gap-y-4 items-center justify-center py-8">
       
       <div class="formImage w-450 h-500">
         <img class="w-full h-full object-contain" :src="signupImage" alt="Login Image">          
