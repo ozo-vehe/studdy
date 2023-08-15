@@ -18,7 +18,7 @@
       icon: group,
       members: ["1234", "1234", "1234"]
     },{
-      name: "Group 4",
+      name: "Group 2",
       description: "Group 2 description",
       size: 4,
       study_methods: ["Slides", "Night crawlers"],
