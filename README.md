@@ -1,5 +1,5 @@
 # STUDDY
-![Study](link-to-your-logo.png)
+![Studdy](https://github.com/ozo-vehe/studdy/blob/main/studdy.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
