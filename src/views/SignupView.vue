@@ -49,7 +49,12 @@
   const userSignup = async(e) => {
     e.preventDefault();
     try{
-      if(password.value == cPassword.value) {
+      if(password.value !== cPassword.value) {
+        isSame.value = false;
+        errorMessage.value = "Password not the same"
+        return new Error("Password not the same");
+      }
+      if(email.value != null && fullname.value != null) {
         isSame.value = true;
         const userDetails = {
           email: email.value,
@@ -64,8 +69,8 @@
       }
       else {
         isSame.value = false;
-        errorMessage.value = "Password not the same"
-        return new Error("Password not the same");
+        errorMessage.value = "Input fields are empty"
+        return new Error("Input fields are empty");
       }
     } catch(err) {
       errorMessage.value = err;
