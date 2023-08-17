@@ -69,6 +69,9 @@
       }
       else {
         isSame.value = false;
+        setTimeout(() => {
+          isSame.value = true;
+        }, 3000);
         errorMessage.value = "Input fields are empty"
         return new Error("Input fields are empty");
       }
@@ -191,8 +194,9 @@
               <p class="bg-white border border-slate-200 text-sm px-2 py-1 rounded-sm flex items-center gap-2 justify-between" v-for="item in value"><span class="text-slate-800 capitalize">{{ item }}</span> <span class="lowercase cursor-pointer text-custom-dark-green" @click="removeSubject(item)">x</span></p>
             </div>
 
-            <div class="w-full button my-4">
-              <ButtonSection @click="userSignup" buttonText="Contnue" color="w-full bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
+            <div class="w-full flex items-center justify-center gap-4 button my-4">
+              <ButtonSection @click="userSignup" buttonText="Contnue" color="w-1/2 bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
+              <ButtonSection @click="hideSignup" buttonText="Back" color="w-1/2 text-custom-dark-green py-2 rounded-lg capitalize bg-white border" />
             </div>
           </form>
         </div>
