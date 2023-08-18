@@ -1,75 +1,32 @@
 <script setup>
-  import defaultImage from '../assets/images/default.png';
-  import { useUsers } from '../store/users';
-  import { useGroups } from '../store/groups';
-  import { storeToRefs } from 'pinia';
-  import { useRoute } from 'vue-router';
-  import { ref, onBeforeMount } from 'vue';
-
-  import GroupSection from '../components/GroupSection.vue';
-  import ButtonSection from '../components/ButtonSection.vue';
-  import EditProfile from '../components/EditProfileSection.vue';
-
-  const userStore = useUsers();
-  const groupStore = useGroups();
-  const route = useRoute();
-
-  const { currentUser, userId } = storeToRefs(userStore);
-  const { getUserGroup } = storeToRefs(groupStore);
-
-  // Data
-  const edit = ref(true);
-  const showEdit = () => {
-    edit.value = !edit.value;
-    console.log(edit.value)
-  }
-
-  onBeforeMount(() => {
-    if(userId) {
-      userId.value = route.params.id;
-    }
-  })
+  import Navbar from '../components/NavbarSection.vue';
+  import Group from '../components/GroupSection.vue';
 </script>
 
 <template>
-  <main class="min-h-screen pt-20">
-    <div class="profileContainer flex gap-x-24 flex-wrap items-start justify-center py-12">
-      <EditProfile v-if="edit" />
-      <div v-else>
-        <div class="profileDetails w-450 box-border">
-          <h2 class="text-4xl font-bold mb-4">{{ currentUser.fullname }}</h2>
-          <p class="my-2" v-if="currentUser.bio">{{ currentUser.bio }}</p>
-          <p class="my-2">Email: {{ currentUser.email }}</p>
-          <p class="capitalize my-2">Education Level: {{ currentUser.education_level }}</p>
-          <p class="capitalize my-2">Study Method: {{ currentUser.study_method }}</p>
-          <div class="flex gap-2 capitalize">
-            <h3>Subjects:</h3>
-            <span v-for="subject in currentUser.subjects"> {{ subject }}, </span>
-          </div>
-
-          <div class="profileBtns mt-8 w-fit flex gap-x-8 gap-y-4">
-            <ButtonSection color="bg-custom-green text-slate-50" buttonText="Edit profile" @click="showEdit" />
-            <ButtonSection color="bg-custom-green text-slate-50" buttonText="Create group" />
-          </div>
+  <main class="min-h-screen">
+    <Navbar />
+    <div class="profileContainer min-h-screen flex flex-wrap gap-x-12 gap-y-8 items-start px-12 justify-center">
+      <div class="profile w-350 min-h-screen border-r pt-12">
+        <div class="profileImage">
+          <img src="https://via.placeholder.com/250" alt="profile image" />
+        </div>
+        <div class="profileInfo">
+          <h3>John Doe</h3>
+          <p>Study Method</p>
+          <p>Subjects</p>
+          <p>Education Level</p>
+          <p>Groups</p>
         </div>
       </div>
 
-      <div class="shadow-lg overflow-hidden profileImage w-300 h-350 border rounded-xl overflow-hden">
-        <img v-if="currentUser.image" class="w-full h-full object-cover" :src="currentUser.image" alt="UserImage">
-        <img v-else class="w-full h-full object-contain" :src="defaultImage" alt="user"/>
+      <div class="userGroups w-350 min-h-screen border-r pt-12">
+        <h2>Groups</h2>
+        <!-- <Group /> -->
       </div>
-    </div>
 
-    <div class="userGroupsContainer px-16 py-12 mt-12 bg-custom-light-green min-h-full">
-      <h2 class="text-4xl font-bold">Groups</h2>
-      <div class="groups flex gap-x-12 gap-y-8 flex-wrap items-center justify-center">
-        <template v-if="currentUser.groups" v-for="group in currentUser.groups">
-          <GroupSection :group="getUserGroup(group)" />
-        </template>
-
-        <div v-else>
-          <h3>No groups yet</h3>
-        </div>
+      <div class="userSchedule w-350 min-h-screen border-r pt-12">
+        <h2>Today's Schedule</h2>
       </div>
     </div>
   </main>
