@@ -12,8 +12,8 @@
     <h2 class="text-custom-dark-green text-center text-3xl font-bold mb-8">Available Groups</h2>
     <div class="groups flex flex-wrap gap-x-6 gap-y-4 items-center justify-center">
       <template v-for="group in groups">
-        <Group :group="group" />
-    </template>
+        <Group :group="group" height="h-450" join="true" />
+      </template>
     </div>
   </main>
 </template>

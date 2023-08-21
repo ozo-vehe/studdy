@@ -4,11 +4,13 @@
 
   defineProps({
     group: Object,
+    join: String,
+    height: String
   })
 </script>
 
 <template>
-  <main class="group relative border border-slate-100 bg-slate-50 rounded-lg my-4 w-350 h-450 overflow-hidden">
+  <main :class="height" class="group relative border border-slate-100 bg-slate-50 rounded-lg my-4 w-350 overflow-hidden">
     <div class="groupIcon h-250">
       <img class="w-full h-full object-cover" :src="group.icon" alt="Group Icon">
     </div>
@@ -24,7 +26,7 @@
       </p>
       <p class="text-left"><span class="font-bold">Members: </span> {{ group.members.length }}</p>
 
-      <Button buttonText="join" color="border border-custom-dark-green mt-4 hover:bg-custom-dark-green bg-slate-50 hover:text-slate-50 text-custom-dark-green transition-all duration-200 hover:shadow-md capitalize py-1 min-w-fit"/>
+      <Button v-if="join === 'true'" buttonText="join" color="border border-custom-dark-green mt-4 hover:bg-custom-dark-green bg-slate-50 hover:text-slate-50 text-custom-dark-green transition-all duration-200 hover:shadow-md capitalize py-1 min-w-fit"/>
     </div>
   </main>
 </template>
