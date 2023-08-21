@@ -6,11 +6,12 @@ export const useUsers = defineStore('users', {
   state: () => ({
     users: [],
     loading: false,
+    loadingMessage: "",
     isLoggedIn: false,
     userId: null,
   }),
   getters: {
-    currentUser: (state) => {
+    currentUser: (state, user_id = state.userId) => {
       return state.users.find((user) => user.id == state.userId);
     }
   },
@@ -47,15 +48,21 @@ export const useUsers = defineStore('users', {
         if(checkUser) {
           this.userId = checkUser.id;
           this.isLoggedIn = true;
+          // Save the user id to local storage
+          localStorage.setItem("userId", checkUser.id);
+          // Return true
           return true;
         }
         // Else return an invalid login details message
         else {
+          // Set the user id to null
           this.userId = null;
+          // Return an error
           return new Error("Invalid login details");
         }
       } catch (err) {
         console.log(err);
+        this.loadingMessage = err.message;
       }
       this.loading = false;
     },

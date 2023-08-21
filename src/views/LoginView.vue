@@ -10,7 +10,7 @@
 
   // Read functions from the store
   const userStore = useUsers();
-  const { userId } = storeToRefs(userStore);
+  const { userId, loading, loadingMessage } = storeToRefs(userStore);
   const { login } = userStore;
 
   // Define router
