@@ -21,6 +21,11 @@
   const password = ref(null);
   const cPassword = ref(null);
   const fullname = ref(null);
+  const level = ref(null);
+  const studyMethod = ref(null);
+  let subjects = ref([]);
+  const profileImage = ref(null);
+
   const isSame = ref(true);
   const errorMessage = ref(null);
 
@@ -38,35 +43,47 @@
     {value: "hematology", label: "Hematology"},
   ]
 
-  let value = ref([]);
   const hide = ref(false);
   
   // Store variables
   const userStore = useUsers();
-  const { signup } = userStore
+  const { signup, uploadImage } = userStore
 
   // Signup function
   const userSignup = async(e) => {
     e.preventDefault();
+    // Check if password is the same
     try{
       if(password.value !== cPassword.value) {
         isSame.value = false;
         errorMessage.value = "Password not the same"
         return new Error("Password not the same");
       }
+      // Check if input fields are empty
       if(email.value != null && fullname.value != null) {
+        // Set isSame to true
         isSame.value = true;
+        // Get image url
+        const imageUrl = await uploadImage(profileImage.value);
+        console.log(imageUrl);
+        // Store user details
         const userDetails = {
+          image: imageUrl,
           email: email.value,
           password: password.value,
-          fullname: fullname.value
+          fullname: fullname.value,
+          level: level.value,
+          studyMethod: studyMethod.value,
+          subjects: subjects.value,
         }
+        // Signup user
         const userId = await signup(userDetails);
         console.log(userId);
 
         // Redirect to profile page
         router.push({name: "profile", params: { id: userId }})
       }
+      // If input fields are empty
       else {
         isSame.value = false;
         setTimeout(() => {
@@ -94,6 +111,8 @@
       userImage.value = e.target.result;
     }
     reader.readAsDataURL(file);
+    // Set profile image to image uploaded
+    profileImage.value = file;
   }
   
   // Rotate Signup form
@@ -144,7 +163,7 @@
             </div>
 
             <div class="w-full button my-4">
-              <ButtonSection @click="hideSignup" buttonText="Sign up" color="w-full bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
+              <ButtonSection @click="hideSignup" buttonText="Next" color="w-full bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
             </div>
 
             <p class="text-center">Already have an account? <RouterLink class="underline underline-offset-2 text-custom-dark-green" to="/login">Login</RouterLink></p>
@@ -163,7 +182,7 @@
             </div>
 
             <div class="text-slate-800 bg-white px-4 border fullname my-4 w-full h-12 rounded overflow-hidden">
-              <select class="w-full h-full border-none outline-none bg-none">
+              <select v-model="level" class="w-full h-full border-none outline-none bg-none">
                 <option value="">Select Level</option>
                 <option value="100">100 Level</option>
                 <option value="200">200 Level</option>
@@ -173,7 +192,7 @@
             </div>
 
             <div class="text-slate-800 bg-white px-4 border fullname my-4 w-full h-12 rounded overflow-hidden">
-              <select class="w-full h-full border-none outline-none bg-none">
+              <select v-model="studyMethod" class="w-full h-full border-none outline-none bg-none">
                 <option value="">Study Method</option>
                 <option value="active discussion">Active Discussion</option>
                 <option value="practice questions">Practice Questions</option>
@@ -184,14 +203,14 @@
             </div>
 
             <div class="flex text-slate-800 bg-white border fullname mt-4 w-full h-12 rounded relative">
-              <Multiselect class="multiselect-green" v-model="value" mode="multiple" :options="options" />
+              <Multiselect class="multiselect-green" v-model="subjects" mode="multiple" :options="options" />
               <div class="absolute flex items-center rounded-l justify-start pl-4 top-0 left-0 h-full w-250 bg-white">
                 <p>Choose your subjects</p>
               </div>
             </div>
 
-            <div v-if="value.length >= 1" class="flex flex-wrap gap-2 items-center justify-start text-slate-800 mt-2 mb-5 w-full h-fit">
-              <p class="bg-white border border-slate-200 text-sm px-2 py-1 rounded-sm flex items-center gap-2 justify-between" v-for="item in value"><span class="text-slate-800 capitalize">{{ item }}</span> <span class="lowercase cursor-pointer text-custom-dark-green" @click="removeSubject(item)">x</span></p>
+            <div v-if="subjects.length >= 1" class="flex flex-wrap gap-2 items-center justify-start text-slate-800 mt-2 mb-5 w-full h-fit">
+              <p class="bg-white border border-slate-200 text-sm px-2 py-1 rounded-sm flex items-center gap-2 justify-between" v-for="subject in subjects"><span class="text-slate-800 capitalize">{{ subject }}</span> <span class="lowercase cursor-pointer text-custom-dark-green" @click="removeSubject(item)">x</span></p>
             </div>
 
             <div class="w-full flex items-center justify-center gap-4 button my-4">
