@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
-import {db, storage} from "../firebase";
+import app from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 export const useUsers = defineStore('users', {
   state: () => ({
@@ -18,6 +20,7 @@ export const useUsers = defineStore('users', {
   actions: {
     async getUsers() {
       try {
+        const db = getFirestore(app);
         const savedUsers = []
         const col = collection(db, 'users');
         const docs = await getDocs(col);
@@ -76,6 +79,7 @@ export const useUsers = defineStore('users', {
     // Signup Function
     async signup(data) {
       console.log(data)
+      const db = getFirestore(app);
       try {
         this.loading = true;
         // Add a new document with a generated id.
@@ -98,6 +102,7 @@ export const useUsers = defineStore('users', {
 
     // Upload profile picture
     async uploadImage(files) {
+      const storage = getStorage(app);
       const imageName = files.name;
       const storageRef = ref(storage, imageName);
 
