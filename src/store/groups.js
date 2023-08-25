@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
-import db from "../firebase";
+import app from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
 
 
 export const useGroups = defineStore('groups', {
@@ -14,6 +15,7 @@ export const useGroups = defineStore('groups', {
   },
   actions: {
     async getGroups() {
+      const db = getFirestore(app);
       try {
         const savedGroups = []
         const col = collection(db, 'groups');

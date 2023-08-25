@@ -62,16 +62,16 @@
 <template>
   <main class="min-h-screen">
     <Navbar />
-    <div class="profileContainer min-h-screen flex flex-wrap gap-x-12 gap-y-8 items-start px-12 justify-center">
+    <div class="profileContainer border-b min-h-screen flex flex-wrap items-start px-12 justify-center">
       
-      <div class="profile w-300 min-h-screen border-r pt-12 pr-4"> 
-        <div class="w-full flex flex-wrap items-center justify-start">
+      <div class="profile w-350 h-screen overflow-y-auto border border pt-12 px-4"> 
+        <div class="w-full flex gap-2 flex-wrap items-center justify-start">
           <div class="profileImage w-16 h-16 rounded-full overflow-hidden">
-            <img class="w-full h-full object-contain" v-if="currentUser.image" :src="currentUser.image" alt="profile image">
+            <img class="w-full h-full object-cover" v-if="currentUser.image" :src="currentUser.image" alt="profile image">
             <img v-else class="w-full h-full object-contain" src="https://via.placeholder.com/250" alt="profile image" />
           </div>
   
-          <div class="profileInfo w-fit flex flex-wrap items-end gap-4 ml-4 h-fit">
+          <div class="profileInfo w-full flex flex-wrap items-end justify-between gap-4 h-fit">
             <div>
               <h3 class="text-xl font-bold text-custom-dark-green">{{ currentUser.fullname }}</h3>
               <p class="text-sm text-slate-700">{{ currentUser.email }}</p>
@@ -83,7 +83,7 @@
         <div class="profileInfo flex flex-wrap gap-6 items-start justify-between mt-8 py-8 px-4 w-full border-t border-slate-400">
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Study Method</span>
-            <span class="text-sm capitalize">{{ currentUser.study_method }},</span>
+            <span class="text-sm capitalize">{{ currentUser.studyMethod }},</span>
           </p>
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Subjects</span>
@@ -93,7 +93,7 @@
           </p>
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Education Level</span>
-            <span class="text-sm">{{ currentUser.education_level }}evel</span>
+            <span class="text-sm">{{ currentUser.level }} Level</span>
           </p>
           <div class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Groups</span>
@@ -104,7 +104,7 @@
         </div>
       </div>
 
-      <div class="userGroups w-500 h-screen border-r pt-12">
+      <div class="userGroups w-500 h-screen border pt-12 px-4">
         <h2 class="w-full flex items-end justify-between pr-4 mb-4">
           <span class="text-3xl text-custom-dark-green font-bold underline underline-offset-4">Groups</span>
           <span class="text-sm cursor-pointer border px-3 py-1 rounded text-slate-50 bg-custom-dark-green">Create</span>
@@ -121,7 +121,7 @@
         </template> -->
       </div>
 
-      <div class="userSchedule w-300 h-screen overflow-y-auto pt-12">
+      <div class="userSchedule w-200 h-screen overflow-y-auto pt-12 px-4">
         <h2 class="mb-4 text-3xl text-custom-dark-green font-bold underline underline-offset-4">Today's Schedule</h2>
         <p>No schedule</p>
       </div>

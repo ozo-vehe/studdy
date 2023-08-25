@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import app from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 
 export const useUsers = defineStore('users', {
   state: () => ({
@@ -101,23 +101,35 @@ export const useUsers = defineStore('users', {
     },
 
     // Upload profile picture
-    async uploadImage(files) {
+    async uploadImage(file) {
+      // Variable to hold the image url
+      let imageUrl = null;
       const storage = getStorage(app);
-      const imageName = files.name;
+      console.log(storage);
+      const imageName = file.name;
+      console.log(imageName);
+      console.log("Creating storage ref");
       const storageRef = ref(storage, imageName);
+      console.log(storageRef);
+      console.log("Saving...");
 
-      await uploadBytes(storageRef, files).then((snapshot) => {
+      await uploadBytes(storageRef, file).then((snapshot) => {
         console.log("successfully uploaded");
+        console.log(snapshot);
       }).catch((error) => {
         console.log(error);
       })
       
+      console.log("Getting download URL")
       // Get image URL to use in the project object to be stored
       await getDownloadURL(storageRef).then((url) => {
+        imageUrl = url;
         return url;
       }).catch((error) => {
         console.log(error);
       })
+
+      return imageUrl;
     },
   }
 })

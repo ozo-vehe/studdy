@@ -12,7 +12,9 @@
   import ErrorAlert from '../components/alerts/ErrorAlert.vue';
   import Navbar from '../components/NavbarSection.vue';
 
-  
+  // Loading state
+  const loading = ref(false);
+
   // Define router
   const router = useRouter();
 
@@ -52,9 +54,12 @@
   // Signup function
   const userSignup = async(e) => {
     e.preventDefault();
+    console.log("Sending...");
+    loading.value = true;
     // Check if password is the same
     try{
       if(password.value !== cPassword.value) {
+        console.log("Not same");
         isSame.value = false;
         errorMessage.value = "Password not the same"
         return new Error("Password not the same");
@@ -63,6 +68,7 @@
       if(email.value != null && fullname.value != null) {
         // Set isSame to true
         isSame.value = true;
+        console.log("Same");
         // Get image url
         const imageUrl = await uploadImage(profileImage.value);
         console.log(imageUrl);
@@ -76,12 +82,13 @@
           studyMethod: studyMethod.value,
           subjects: subjects.value,
         }
+        console.log(userDetails);
         // Signup user
         const userId = await signup(userDetails);
         console.log(userId);
 
         // Redirect to profile page
-        router.push({name: "profile", params: { id: userId }})
+        router.push({name: "profile", params: { id: 1 }})
       }
       // If input fields are empty
       else {
@@ -94,6 +101,8 @@
       }
     } catch(err) {
       errorMessage.value = err;
+    } finally {
+      loading.value = false;
     }
   }
 
@@ -181,8 +190,9 @@
               <label class="cursor-pointer mt-4 mb-2 bg-white text-slate-800 px-3 py-1 border border-slate-200 rounded" for="image">Select image</label>
             </div>
 
-            <div class="text-slate-800 bg-white px-4 border fullname my-4 w-full h-12 rounded overflow-hidden">
-              <select v-model="level" class="w-full h-full border-none outline-none bg-none">
+            <label for="level" class="text-slate-800 px-1">Select Level: </label>
+            <div class="text-slate-800 bg-white px-4 border fullname mb-4 w-full h-12 rounded overflow-hidden">
+              <select v-model="level" id="level" class="w-full h-full border-none outline-none bg-none">
                 <option value="">Select Level</option>
                 <option value="100">100 Level</option>
                 <option value="200">200 Level</option>
@@ -191,9 +201,9 @@
               </select>
             </div>
 
-            <div class="text-slate-800 bg-white px-4 border fullname my-4 w-full h-12 rounded overflow-hidden">
-              <select v-model="studyMethod" class="w-full h-full border-none outline-none bg-none">
-                <option value="">Study Method</option>
+            <label for="studyMethod" class="text-slate-800 px-1">Study Method:</label>
+            <div class="text-slate-800 bg-white px-4 border fullname mb-4 w-full h-12 rounded overflow-hidden">
+              <select id="studyMethod" v-model="studyMethod" class="w-full h-full border-none outline-none bg-none">
                 <option value="active discussion">Active Discussion</option>
                 <option value="practice questions">Practice Questions</option>
                 <option value="visual learning">Visual Learning</option>
@@ -203,9 +213,9 @@
             </div>
 
             <div class="flex text-slate-800 bg-white border fullname mt-4 w-full h-12 rounded relative">
-              <Multiselect class="multiselect-green" v-model="subjects" mode="multiple" :options="options" />
-              <div class="absolute flex items-center rounded-l justify-start pl-4 top-0 left-0 h-full w-250 bg-white">
-                <p>Choose your subjects</p>
+              <Multiselect id="multiselect" class="multiselect-green" v-model="subjects" mode="multiple" :options="options" />
+              <div class="absolute flex items-center rounded-l justify-start pl-4 top-0 left-0 h-full w-fit">
+                <label for="multiselect">Choose your subjects</label>
               </div>
             </div>
 
@@ -214,8 +224,11 @@
             </div>
 
             <div class="w-full flex items-center justify-center gap-4 button my-4">
-              <ButtonSection @click="userSignup" buttonText="Contnue" color="w-1/2 bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
-              <ButtonSection @click="hideSignup" buttonText="Back" color="w-1/2 text-custom-dark-green py-2 rounded-lg capitalize bg-white border" />
+              <template v-if="!loading">
+                <ButtonSection @click="userSignup" buttonText="Sign up" color="w-1/2 bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
+                <ButtonSection @click="hideSignup" buttonText="Back" color="w-1/2 text-custom-dark-green py-2 rounded-lg capitalize bg-white border" />
+              </template>
+              <ButtonSection v-else buttonText="Signing up, please wait..." color="w-full cursor-none text-custom-dark-green py-2 rounded-lg capitalize bg-white border" />
             </div>
           </form>
         </div>
