@@ -88,7 +88,7 @@
         console.log(userId);
 
         // Redirect to profile page
-        router.push({name: "profile", params: { id: 1 }})
+        router.push({name: "profile", params: { id: userId }})
       }
       // If input fields are empty
       else {

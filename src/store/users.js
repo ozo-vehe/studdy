@@ -14,7 +14,7 @@ export const useUsers = defineStore('users', {
   }),
   getters: {
     currentUser: (state, user_id = state.userId) => {
-      return state.users.find((user) => user.id == state.userId);
+      return state.users.find((user) => user.id == user_id);
     }
   },
   actions: {
@@ -38,6 +38,16 @@ export const useUsers = defineStore('users', {
       }
     },
 
+    // Get a single user
+    async getUser(id) {
+      try {
+        const user = this.users.find((user) => user.id == id);
+        return user;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    
     // Login Action
     async login({password, email}) {
       this.loading = true;

@@ -10,14 +10,18 @@
 
   import { useUsers } from '../store/users';
   import { useRoute } from 'vue-router';
-  import { storeToRefs } from 'pinia';
-  import { ref } from 'vue';
+  import { ref, onBeforeMount } from 'vue';
 
   const userStore = useUsers();
-  const { currentUser } = storeToRefs(userStore);
+  const { getUser } = userStore;
   const route = useRoute();
 
-  console.log(currentUser.value)
+  const user = ref({});
+
+  onBeforeMount(async () => {
+    user.value = await getUser(route.params.id);
+    console.log(user.value);
+  });
 
   const groups = [
     {
@@ -62,75 +66,67 @@
 <template>
   <main class="min-h-screen">
     <Navbar />
-    <div class="profileContainer border-b min-h-screen flex flex-wrap items-start px-12 justify-center">
-      
-      <div class="profile w-350 h-screen overflow-y-auto border border pt-12 px-4"> 
-        <div class="w-full flex gap-2 flex-wrap items-center justify-start">
-          <div class="profileImage w-16 h-16 rounded-full overflow-hidden">
-            <img class="w-full h-full object-cover" v-if="currentUser.image" :src="currentUser.image" alt="profile image">
-            <img v-else class="w-full h-full object-contain" src="https://via.placeholder.com/250" alt="profile image" />
-          </div>
-  
-          <div class="profileInfo w-full flex flex-wrap items-end justify-between gap-4 h-fit">
-            <div>
-              <h3 class="text-xl font-bold text-custom-dark-green">{{ currentUser.fullname }}</h3>
-              <p class="text-sm text-slate-700">{{ currentUser.email }}</p>
-            </div>
-            <button class="cursor-pointer text-slate-50 border px-4 rounded bg-custom-dark-green underline text-sm">Edit</button>
-          </div>
+    <section class="profileContainer border-b min-h-screen flex flex-wrap items-start justify-center">
+      <header class="relative h-500 w-full">
+        <div class="userImage absolute z-0 top-0 left-0 w-full h-full">
+          <img class="w-full h-full object-top object-cover" :src="user.image" alt="">
         </div>
+        <div class="userDetails bg-custom-dark-green/70 relative w-full h-full flex items-end justify-between px-12 pb-4">
+          <div>
+            <h2 class="text-6xl font-bold text-gray-900">{{ user.fullname }}</h2>
+            <p class="text-2xl text-gray-900">{{ user.email }}</p>
+          </div>
+          <button class="cursor-pointer bg-gray-900 px-4 py-1 rounded text-slate-100 underline text-sm">Edit Profile</button>
+        </div>
+      </header>
 
-        <div class="profileInfo flex flex-wrap gap-6 items-start justify-between mt-8 py-8 px-4 w-full border-t border-slate-400">
+      <section class="profileDetails w-full flex items-start justify-between px-12">
+        
+        <section class="userCard bg-custom-dark-green/70 rounded-b-3xl w-300 flex flex-wrap gap-6 items-start justify-between py-8 px-4">
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Study Method</span>
-            <span class="text-sm capitalize">{{ currentUser.studyMethod }},</span>
+            <span class="text-sm capitalize">{{ user.studyMethod }},</span>
           </p>
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Subjects</span>
-            <template v-for="subject in currentUser.subjects">
+            <template v-for="subject in user.subjects">
               <span class="text-sm capitalize">{{ subject }}</span>
             </template>
           </p>
           <p class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Education Level</span>
-            <span class="text-sm">{{ currentUser.level }} Level</span>
+            <span class="text-sm">{{ user.level }} Level</span>
           </p>
           <div class="flex flex-col items-start justify-center h-fit w-full">
             <span class="text-xl font-bold">Groups</span>
             <ol class="text-sm list-decimal px-4">
-              <li v-for="group in currentUser.groups">{{ group }}</li>
+              <li v-for="group in user.groups">{{ group }}</li>
             </ol>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <div class="userGroups w-500 h-screen border pt-12 px-4">
-        <h2 class="w-full flex items-end justify-between pr-4 mb-4">
-          <span class="text-3xl text-custom-dark-green font-bold underline underline-offset-4">Groups</span>
-          <span class="text-sm cursor-pointer border px-3 py-1 rounded text-slate-50 bg-custom-dark-green">Create</span>
-        </h2>
-        <!-- <Group /> -->
-        <div v-if="groups" class="overflow-y-auto pt-5 groups flex flex-wrap gap-x-6 gap-y-4 items-center justify-center">
-          <template v-for="group in groups">
-            <Group :group="group" join="false" height="h-auto pb-4" />
-          </template>
-        </div>
-        <p v-else>No groups joined</p>
-        <!-- <template v-for="group in groups">
-          <Group :group="group" />
-        </template> -->
-      </div>
+        <section class="userGroups w-full px-8 pt-8">
+          <h2 class="w-full flex items-end justify-between pr-4 mb-4">
+            <span class="text-3xl text-custom-dark-green font-bold underline underline-offset-4">Groups</span>
+            <span class="text-sm cursor-pointer px-3 py-1 rounded text-slate-50 bg-custom-dark-green">Create</span>
+          </h2>
 
-      <div class="userSchedule w-200 h-screen overflow-y-auto pt-12 px-4">
+          <div v-if="groups" class="pt-5 groups flex flex-wrap gap-x-6 gap-y-4 items-center justify-start">
+            <template v-for="group in groups">
+              <Group :group="group" join="false" height="h-auto pb-4" />
+            </template>
+          </div>
+          <p v-else>No groups joined</p>
+        </section>
+      </section>
+
+      <!-- <div class="userSchedule w-200 h-screen overflow-y-auto pt-12 px-4">
         <h2 class="mb-4 text-3xl text-custom-dark-green font-bold underline underline-offset-4">Today's Schedule</h2>
         <p>No schedule</p>
-      </div>
-    </div>
+      </div> -->
+    </section>
   </main>
 </template>
 
 <style scoped>
-  .groups {
-    height: calc(100vh - 100px);
-  }
 </style>
