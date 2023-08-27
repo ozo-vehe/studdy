@@ -71,41 +71,42 @@
         <div class="userImage absolute z-0 top-0 left-0 w-full h-full">
           <img class="w-full h-full object-top object-cover" :src="user.image" alt="">
         </div>
+
         <div class="userDetails bg-custom-dark-green/70 relative w-full h-full flex items-end justify-between px-12 pb-4">
-          <div>
+          <div class="w-full">
             <h2 class="text-6xl font-bold text-gray-900">{{ user.fullname }}</h2>
             <p class="text-2xl text-gray-900">{{ user.email }}</p>
+
+            <div class="mt-12 w-full flex flex-wrap items-start justify-start gap-x-8 gap-y-4">
+              <p class="flex flex-col items-start justify-center h-fit min-w-fit">
+                <span class="text-xl font-bold">Study Method</span>
+                <span class="text-sm capitalize">{{ user.studyMethod }},</span>
+              </p>
+
+              <p class="flex flex-col items-start justify-center h-fit min-w-fit">
+                <span class="text-xl font-bold">Subjects</span>
+                <template  emplate v-for="subject in user.subjects">
+                  <span class="text-sm capitalize">{{ subject }}</span>
+                </template>
+              </p>
+              <p class="flex flex-col items-start justify-center h-fit min-w-fit">
+                <span class="text-xl font-bold">Education Level</span>
+                <span class="text-sm">{{ user.level }} Level</span>
+              </p>
+              <div class="flex flex-col items-start justify-center h-fit min-w-fit">
+                <span class="text-xl font-bold">Groups</span>
+                <ol class="text-sm list-decimal px-4">
+                  <li v-for="group in user.groups">{{ group }}</li>
+                </ol>
+              </div>
+            </div>
           </div>
-          <button class="cursor-pointer bg-gray-900 px-4 py-1 rounded text-slate-100 underline text-sm">Edit Profile</button>
+          <button class="cursor-pointer bg-gray-900 py-1 rounded text-slate-100 underline text-sm w-28">Edit Profile</button>
         </div>
       </header>
 
-      <section class="profileDetails w-full flex items-start justify-between px-12">
-        
-        <section class="userCard bg-custom-dark-green/70 rounded-b-3xl w-300 flex flex-wrap gap-6 items-start justify-between py-8 px-4">
-          <p class="flex flex-col items-start justify-center h-fit w-full">
-            <span class="text-xl font-bold">Study Method</span>
-            <span class="text-sm capitalize">{{ user.studyMethod }},</span>
-          </p>
-          <p class="flex flex-col items-start justify-center h-fit w-full">
-            <span class="text-xl font-bold">Subjects</span>
-            <template v-for="subject in user.subjects">
-              <span class="text-sm capitalize">{{ subject }}</span>
-            </template>
-          </p>
-          <p class="flex flex-col items-start justify-center h-fit w-full">
-            <span class="text-xl font-bold">Education Level</span>
-            <span class="text-sm">{{ user.level }} Level</span>
-          </p>
-          <div class="flex flex-col items-start justify-center h-fit w-full">
-            <span class="text-xl font-bold">Groups</span>
-            <ol class="text-sm list-decimal px-4">
-              <li v-for="group in user.groups">{{ group }}</li>
-            </ol>
-          </div>
-        </section>
-
-        <section class="userGroups w-full px-8 pt-8">
+      <section class="profileDetails w-full flex items-start justify-between px-12 pt-12">
+        <section class="userGroups w-full">
           <h2 class="w-full flex items-end justify-between pr-4 mb-4">
             <span class="text-3xl text-custom-dark-green font-bold underline underline-offset-4">Groups</span>
             <span class="text-sm cursor-pointer px-3 py-1 rounded text-slate-50 bg-custom-dark-green">Create</span>
