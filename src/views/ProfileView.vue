@@ -77,21 +77,21 @@
             <h2 class="text-6xl font-bold text-gray-900">{{ user.fullname }}</h2>
             <p class="text-2xl text-gray-900">{{ user.email }}</p>
 
-            <div class="mt-12 w-full flex flex-wrap items-start justify-start gap-x-8 gap-y-4">
+            <div class="mt-12 w-full flex flex-wrap items-start justify-start gap-x-8 gap-y-4 mb-8">
               <p class="flex flex-col items-start justify-center h-fit min-w-fit">
                 <span class="text-xl font-bold">Study Method</span>
-                <span class="text-sm capitalize">{{ user.studyMethod }},</span>
+                <span v-if="user.studyMethod" class="text-sm capitalize">{{ user.studyMethod }},</span>
               </p>
 
               <p class="flex flex-col items-start justify-center h-fit min-w-fit">
                 <span class="text-xl font-bold">Subjects</span>
-                <template  emplate v-for="subject in user.subjects">
+                <template v-if="user.subjects" v-for="subject in user.subjects">
                   <span class="text-sm capitalize">{{ subject }}</span>
                 </template>
               </p>
               <p class="flex flex-col items-start justify-center h-fit min-w-fit">
                 <span class="text-xl font-bold">Education Level</span>
-                <span class="text-sm">{{ user.level }} Level</span>
+                <span v-if="user.level" class="text-sm">{{ user.level }} Level</span>
               </p>
               <div class="flex flex-col items-start justify-center h-fit min-w-fit">
                 <span class="text-xl font-bold">Groups</span>
@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-          <button class="cursor-pointer bg-gray-900 py-1 rounded text-slate-100 underline text-sm w-28">Edit Profile</button>
+          <button class="cursor-pointer bg-gray-900 py-1 rounded text-slate-100 underline text-sm w-28 mb-8">Edit Profile</button>
         </div>
       </header>
 
@@ -113,18 +113,14 @@
           </h2>
 
           <div v-if="groups" class="pt-5 groups flex flex-wrap gap-x-6 gap-y-4 items-center justify-start">
-            <template v-for="group in groups">
+            <template v-if="user.groups" v-for="group in groups">
               <Group :group="group" join="false" height="h-auto pb-4" />
             </template>
+            <h3 class="text-xl" v-else>No group joined or created</h3>
           </div>
           <p v-else>No groups joined</p>
         </section>
       </section>
-
-      <!-- <div class="userSchedule w-200 h-screen overflow-y-auto pt-12 px-4">
-        <h2 class="mb-4 text-3xl text-custom-dark-green font-bold underline underline-offset-4">Today's Schedule</h2>
-        <p>No schedule</p>
-      </div> -->
     </section>
   </main>
 </template>

@@ -63,6 +63,8 @@ export const useUsers = defineStore('users', {
           this.isLoggedIn = true;
           // Save the user id to local storage
           localStorage.setItem("userId", checkUser.id);
+          // Save user to local storage
+          localStorage.setItem("user", JSON.stringify(checkUser));
           // Return true
           return true;
         }
@@ -84,6 +86,9 @@ export const useUsers = defineStore('users', {
     async logout() {
       console.log("Logged out")
       this.isLoggedIn = false;
+      // Delete user data from local storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("userId");
     },
 
     // Signup Function
