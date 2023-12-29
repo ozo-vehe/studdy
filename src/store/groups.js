@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import app from "../firebase";
+import { firebase_app } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 

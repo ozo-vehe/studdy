@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useUsers } from '../store/users';
 import { useRouter } from 'vue-router';
 import Multiselect from '@vueform/multiselect';
+import { storeToRefs } from 'pinia';
 
 import '@vueform/multiselect/themes/default.css';
 
@@ -27,7 +28,7 @@ const level = ref(null);
 const studyMethod = ref(null);
 let subjects = ref([]);
 const profileImage = ref("https://via.placeholder.com/250");
-const isSame = ref(true);
+const error = ref(false);
 const errorMessage = ref(null);
 const userImage = ref("https://via.placeholder.com/250");
 const userImageFile = ref(null);
@@ -50,18 +51,28 @@ const hide = ref(false);
 
 // Store variables
 const userStore = useUsers();
-const { signup, uploadImage } = userStore
+const { signup, uploadImage } = userStore;
+const { users } = storeToRefs(userStore);
+const storedUsers = ref([...users.value])
+console.log(storedUsers.value)
 
 // Signup function
 const userSignup = async (e) => {
   e.preventDefault();
   console.log("Sending...");
   loading.value = true;
+  // Check if user already exists
+  const checkUser = storedUsers.value.find((user) => {
+    return user.email == email && user.password == password
+  })
+
+  if(!checkUser) return new Error("User already exists");
+
   // Check if password is the same
   try {
     if (password.value !== cPassword.value) {
       console.log("Not same");
-      isSame.value = false;
+      error.value = true;
       errorMessage.value = "Password not the same"
       return new Error("Password not the same");
     }
@@ -86,7 +97,6 @@ const userSignup = async (e) => {
         studyMethod: studyMethod.value,
         subjects: subjects.value,
       }
-      console.log(userDetails);
       // Signup user
       const userId = await signup(userDetails);
       console.log(userId);
@@ -96,15 +106,19 @@ const userSignup = async (e) => {
     }
     // If input fields are empty
     else {
-      isSame.value = false;
-      setTimeout(() => {
-        isSame.value = true;
-      }, 5000);
+      error.value = true;
       errorMessage.value = "Input fields are empty"
+      setTimeout(() => {
+        error.value = false;
+      }, 5000);
       return new Error("Input fields are empty");
     }
   } catch (err) {
     errorMessage.value = err;
+    error.value = true;
+    setTimeout(() => {
+      error.value = false;
+    }, 5000)
   } finally {
     loading.value = false;
   }
@@ -245,7 +259,8 @@ const hideSignup = (e) => {
 
             <div class="w-full flex items-center justify-center gap-4 button my-4">
               <button class="w-full h-12 rounded-lg" v-if="loading">
-                <span class="w-4 h-4 inline-block rounded-full animate-spin border-r-2 border-b-2 border-l-2 border-custom-dark-green">
+                <span
+                  class="w-4 h-4 inline-block rounded-full animate-spin border-r-2 border-b-2 border-l-2 border-custom-dark-green">
                 </span>
               </button>
               <template v-else>
@@ -253,17 +268,19 @@ const hideSignup = (e) => {
                   color="w-1/2 bg-custom-dark-green py-2 rounded-lg capitalize text-slate-50" />
                 <ButtonSection @click="hideSignup" buttonText="Back"
                   color="w-1/2 text-custom-dark-green py-2 rounded-lg capitalize bg-white border" />
-            </template>
-          </div>
-        </form>
+              </template>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 
-  <ErrorAlert :message="errorMessage" v-if="!isSame" />
-</main></template>
+    <ErrorAlert :message="errorMessage" v-if="error" />
+  </main>
+</template>
 
-<style scoped>.multiselect-green {
+<style scoped>
+.multiselect-green {
   --ms-tag-bg: none;
   --ms-tag-color: none;
   --ms-border-color: none;
